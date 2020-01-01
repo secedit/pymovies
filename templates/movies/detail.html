@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-4">
+    <img class="card-img" src="{% static movie.get_image_path %}" alt="">
+    <br>
+    <hr>
+    <table>
+      <tr>
+        <th>Year</th>
+        <th>:</th>
+        <td>{{ movie.yil}}</td>
+      </tr>
+      <tr>
+        <th>Category</th>
+        <th>:</th>
+        <td>{{ movie.turu }}</td>
+      </tr>
+      <tr>
+        <th>Imdb</th>
+        <th>:</th>
+        <td>{{ movie.imdb}}</td>
+      </tr>
+
+
+
+
+    </table>
+  </div>
+  <div class="col-md-8">
+
+
+
+    <div class="row">
+      <div class="col-md-9">
+        <h1>{{ movie.name }}</h1>
+      </div>
+
+      <div class="col-md-3">
+        <span class="badge badge-pill badge-warning" style="float: right;font-size: 15px;">{{averate}}</span>
+      </div>
+    </div>
+
+    <hr>
+    {{ movie.description }}<br><br>
+    <br>
+    <button type="button" class="btn btn-info " style="background-color:rgb(176, 235, 235)">
+      <iframe width="560" height="315" src="{{ movie.fragman_link}}" frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </button>
+    <br><br>
+    <table>
+    <tr>
+      <th>Director</th>
+      <th>:</th>
+      <td>{{ movie.yonetmen }}</td>
+    </tr>
+    <tr>
+      <th>Cast</th>
+      <th>:</th>
+      <td>{{ movie.oyuncular}}</td>
+    </tr>
+    </table>
+
+  </div>
+</div>
+<br>
+<hr>
+<div class="main-content">
+
+  {% include 'partials/_commentForm.html' %}
+  <br>
+  <hr>
+  {% include 'partials/_comments.html' %}
+
+</div>
+
+
+
+{% endblock content %}

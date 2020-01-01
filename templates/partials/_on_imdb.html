@@ -1,0 +1,30 @@
+{% load static %}
+
+
+{% if on_imdb %}
+    <div class="card">
+        <div class="card-header">
+        IMDB TOP 10
+        </div>
+        <ul class="list-group list-group-flush ">
+            {% for imdb_movie in on_imdb  %}
+                <li class="list-group-item">               
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="card-img" src="{% static imdb_movie.get_image_path %}" alt=""> <!--her filmin resmini cagirdik -->
+                        </div>
+                        <div class="col-md-5">
+                            <a href="{% url 'detail' imdb_movie.id %}">{{imdb_movie.name}}</a>    <!--isme tiklaninca detay sayfasi icin link verdik -->
+                        </div>
+                        <div class="col-md-4">
+                            <p class="card-text-center">
+                                imdb : {{imdb_movie.imdb}}   <!--imdb puanini yazdirdik -->
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>   
+
+{% endif %}

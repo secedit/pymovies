@@ -1,0 +1,180 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .column {
+        float: left;
+        width: 33.33%;
+        padding: 10px;
+    }
+
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .pagination {
+        text-align: center;
+        margin-top: 1em;
+        border-radius: 5px;
+        height: 50px;
+        width: 500px;
+        background-color: rgb(255, 255, 255);
+        margin-left: px;
+    }
+    .pagination-number {
+        padding: 0.7em 1.1em;
+        margin: 0 0.2em;
+        border-radius: 2px;
+        color: #fff;
+        background-color:rgb(0, 0, 0);
+    }
+    .pagination-number:hover, .pagination-current {
+        background-color: rgb(233, 223, 223);
+        color: black;
+    }
+    .pagination-action {
+        margin: 0 0.1em;
+        display: inline-block;
+        padding: 0.5em 0.5em;
+        color: rgb(7, 7, 7);
+        font-size: 1.3em;
+    }
+    .pagination-action:hover, .pagination-previous, .pagination-next {
+        color: rgb(233, 223, 223);
+    }
+</style>
+<div class="bg-light">
+    <div class="row">
+        <div class="column"
+            style="background-color:rgb(192, 225, 231); border-top-left-radius: 20px; border-bottom-left-radius: 20px;">
+            <div style="text-align: center;" class="dropdown">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-lg">
+                        <h3>Category</h3>
+                    </button>
+                    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle=dropdown>
+                    </button>
+                    <div style="background-color: rgb(101, 212, 207); border:1px solid black;" class="dropdown-menu">
+                        <form action="{% url 'category' %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-dark btn-block" type="submit", value='Action', name="category">Action</button>
+                            <button class="btn btn-outline-dark btn-block" type="submit", value='Animation', name="category">Animation</button>
+                            <button class="btn btn-outline-dark btn-block" type="submit", value='Comedy', name='category'>Comedy</button>
+                            <button class="btn btn-outline-dark btn-block" type="submit", value='Documentary', name='category'>Documentary</button>
+                            <button class="btn btn-outline-dark btn-block" type="submit", value='Family', name='category'>Family</button>
+                            <button class="btn btn-outline-dark btn-block" type="submit", value='Horror', name='category'>Horror</button>
+                            <button class="btn btn-outline-dark btn-block" type="submit", value='Romance', name='category'>Romance</button>
+                            <button class="btn btn-outline-dark btn-block" type="submit", value='Sci-fi', name='category'>Sci-Fi</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column" style="background-color:rgb(192, 225, 231);">
+            <div style="text-align: center;" class="dropdown">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-lg">
+                        <h3>Year</h3>
+                    </button>
+                    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle=dropdown>
+                    </button>
+                    <div style="background-color: rgb(101, 212, 207); border:1px solid black;" class="dropdown-menu">
+                        <form action="{% url 'category' %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2019', name="category">2019</button>
+                            <button class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2018', name="category">2018</button>
+                            <button class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2017', name='category'>2017</button>
+                            <button class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2016', name='category'>2016</button>
+                            <button class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2015', name='category'>2015</button>
+                            <button class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2014', name='category'>2014</button>
+                            <button class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2013', name='category'>2013</button>
+                            <button class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2012', name='category'>2012</button>
+                            <button class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2011', name='category'>2011</button>
+                            <button style="margin-bottom: 8px;" class="btn btn-sm btn-outline-dark btn-block" type="submit", value='2010', name='category'>2010</button>
+                        </form>
+                        <a href="/movies/older/"><button class="btn btn-sm btn-outline-dark btn-block">Older Movies</button> </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column"
+            style="background-color:rgb(192, 225, 231); border-top-right-radius: 20px; border-bottom-right-radius: 20px;">
+            <div style="text-align: center;" class="dropdown">
+                <button class="btn btn-lg ">
+                    <a href="/movies/imdb/">
+                        <h3 style="color:black">Imdb 7.0 +</h3>
+                    </a>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div>
+
+
+{% if movies %}
+<div style="width: 800px; background-color:black; float:center; border-radius:50px;" class="container">
+    <h1 style="color:white; text-align:center;">{{title}}</h1>
+    {% if 'imdb' in request.path %}
+    <h1 style="color:white; text-align:center;">Imdb 7+ Movies</h1> {% endif %}
+    {% if 'older' in request.path %}
+    <h1 style="color:white; text-align:center;">Older Movies</h1> {% endif %}
+
+</div>
+<div style="max-width: 1050px; margin: auto; background: #070707; overflow: auto; border-radius:20px; display: flex; flex-flow: row wrap; justify-content:space-around" class="container">
+    {% for movie in movies  %}
+        <div style="padding:1px; margin:35px; border:1px solid rgb(12, 12, 12); float:left; width: 265px; height: 450px; text-align: center; 
+        background-color:#dfeef5; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" class="gallery">
+            <a href="{% url 'detail' movie.id %}">
+            <img style="width:260px; height:330px; overflow:auto;" src="{% static movie.get_image_path %}" alt="">
+            <div style="padding-top: 8px; text-align:center;" class="desc"> <h6><ins>{{movie.name}}</ins></h6> </div></a>
+            <div class="col-md-12" style="height: 40px; background-color: rgb(155, 208, 218); float:left; border-top-left-radius:20px; border-top-right-radius:20px;"><p style="color: rgb(5, 5, 5); font-family:cursive;">{{movie.turu}}</p></div>
+            <div class="col-md-6" style=" height: 20px; background-color: rgb(155, 208, 218); float:left; border-bottom-left-radius:20px;"><p style="color: rgb(0, 0, 0); font-family:cursive;">Year: {{movie.yil}}</p></div>
+            <div class="col-md-6" style="height: 20px; background-color: rgb(155, 208, 218); float:right; border-bottom-right-radius:20px;"><p style="color: rgb(5, 5, 5); font-family:cursive;">Imdb: {{movie.imdb}}</p></div>
+        </div> 
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-warning">
+        No Movies
+    </div>
+</div>
+
+
+{% endif %}
+</div>
+
+<div class="pagination" style="background-color: rgb(232, 242, 243); height: 40px;">
+    {% if movies.has_previous %}
+        <a class="pagination-action" href="?page=1">
+            <i class="fa fa-angle-double-left" aria-hidden="true"></i> </a>
+        <a class="pagination-action" href="?page={{ movies.previous_page_number }}">
+            <i>Previous</i>
+        </a>
+    {% endif %}
+    {% for num in movies.paginator.page_range %}
+        {% if movies.number == num %}
+            <span class="pagination-number pagination-current">{{ num }}</span>
+        {% elif num > movies.number|add:'-3' and num < movies.number|add:'3' %}
+            <a class="pagination-number" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+    {% if movies.has_next %}
+        <a class="pagination-action" href="?page={{ movies.next_page_number }}">
+            <i> Next</i>
+        </a>
+        <a class="pagination-action" href="?page={{ movies.paginator.num_pages }}">
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+        </a>
+    {% endif %}
+</div>
+{% endblock content %}
